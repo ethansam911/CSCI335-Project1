@@ -28,12 +28,14 @@ class Points2 {
  
 	Points2()
 	{
-	size_ = 0;
+		size_ = 0;
 	}
 
 	// Copy-constructor.
 	Points2(const Points2 &rhs)
-	{}
+	{
+		
+	}
 
 
   // Copy-assignment. If you have already written
@@ -46,22 +48,27 @@ class Points2 {
   // }
   //"this" refers to the current instance of the class
   //We overload the "=" operator to accept new coordinates 
+  /*The "this" pointer is an implicit parameter to all member functions 
+	(This may be used to refer to the invoking object
+  */
   Points2& operator=(const Points2 &rhs)
   {
 	Points2 copy = rhs; 
 	std::swap(*this, copy);
 	return *this; 
-  }
+  }// END operator "="
 
-  // Move-constructor. 
+  // Move-constructor.
+//rhs.sequence is a synonym of sequence_ (unupdated)
 	Points2(Points2 &&rhs): sequence_{rhs.sequence_}
 	{
 	 rhs.sequence_ = nullptr;
-	}
+	}// END Move constructor
 		  
 
   // Move-assignment.
   // Just use std::swap() for all variables.
+  
   Points2& operator=(Points2 &&rhs)
   {	
 	//When overloading the "=" operator, the size of a given sequence may vary 
@@ -84,18 +91,21 @@ class Points2 {
 
   // End of big-five.
 
-  // One parameter constructor.
+  // One parameter constructor._
   //This one array holds two objects
-  //This is one coordinate aka two values
+  //An object can be either a double or integer
+  // item and squence are both of type array (both hold two objects)
+  
   Points2(const std::array<Object, 2>& item) 
   {
-	item[0] = 0;
-	item[1] = 0;
-	size_ = 1    
+	  // item is of type std::array<Object, 2>&, we must change sequence so it is the same
+	  sequence_ = new std::array<Object, 2>{item}; 
+	  size_ = item.size()/2;
   }
-
+/*
   // Read a chain from standard input.
-  void ReadPoints2() {
+  void ReadPoints2() 
+  {
     // Part of code included (without error checking).
     std::string input_line;
     std::getline(std::cin, input_line); 
@@ -106,30 +116,28 @@ class Points2 {
     input_stream >> size_of_sequence;
     // Allocate space for sequence.
     // Add code here.
-	size_ = size_of_sequence;
-	std::array<int, 2> *sequence_;
 	
-    
+	const int num_of_points = size_of_sequence;
+	std::array<std::array<int, 2>, num_of_points> coord_sequence;
+	//Object is the template type parameter (i.e int, double, etc.)
     Object token;
-    for (int i = 0 ;input_stream >> token; ++i) {
-      // Read coordinates.
-	  int coordinate_x;
-	  int coordinate_y;
-	  input_stream >> coordinate_x >> coordinate_y;
-      // Fill sequence_ here.
-	  for( size_t i = 0; i < size_; ++i)
-	  {		  
-	  sequence_[i] =  
-	  
-	  
-    }
-    
+	// Read coordinates.
+    for (auto i = 0 ;input_stream >> token; ++i) 
+	{
+		for(auto pos = 0; pos < 2 ; ++pos)
+		{
+		     // Fill sequence_ here.
+			sequence_[pos] = coord_sequence[i][pos] = token;
+		}
+	}  
+	
   }
-
+*/
   size_t size() const 
   {
     // Code missing.
 	return size_;
+	
   }
 
   // @location: an index to a location in the sequence.
@@ -146,6 +154,7 @@ class Points2 {
 	{
 		return sequence_[location];
 	}
+	return sequence_[location];
   } //END operator[]
   
  //  @c1: A sequence.
@@ -155,30 +164,28 @@ class Points2 {
  friend Points2 operator+(const Points2 &c1, const Points2 &c2) 
  {
    // Code missing - IN PROGRESS
-   
-   if( c1 > c2)
-   {
-	   
-   
-   }
-   else if (c2 > c1)
-   {
-	   
-	   
-   }
-   
+
+
+ 
  }
 
- // Overloading the << operator.
- friend std::ostream &operator<<(std::ostream &out, const Points2 &some_points2) 
+
+ // Overloading the << operatori
+ //This is a string remember
+  friend std::ostream &operator<<(std::ostream &out, const Points2 &some_points2) 
  {
-   // Code missing.
+	const std::array<Object, 2> new_array = *some_points2.sequence_;
+ 
+    out << "(" << new_array[0] << ", " << new_array[1] << ")";
+
+	return out;
  }
+
  
  private:
   // Sequence of points. 
   //Fixed size array container of size 2; holds objects 
-  //*sequence_ is a pointer to a memory location with an array holding three objects
+  //*sequence_ is a pointer to a memory location with an array holding two objects (int or double)
   std::array<Object, 2> *sequence_;
   // Size of sequence.
   size_t size_;
