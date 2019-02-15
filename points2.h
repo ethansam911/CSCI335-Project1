@@ -1,8 +1,7 @@
 /**
-    Name: Ethan Sam 
+    	Name: Ethan Sam 
 	Date: 2/14/2019
-	Professor: Ioannis Stamos
-	Class: CSCI 335
+	
 	
 	Header file: points2.h
 	
@@ -252,6 +251,6 @@ namespace teaching_project {
   // Size of sequence.
   size_t size_;
 
-	};  // namespace teaching_project
+	};  
 }
 #endif // CSCI_335_HOMEWORK1_POINTS2_H_
